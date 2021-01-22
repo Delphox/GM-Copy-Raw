@@ -3,6 +3,7 @@ export default {
     onImport: () => {
       goosemodScope.patcher.contextMenu.add("message", {
         label: "Copy Raw",
+
         action: (_originalArgs, extraInfo) => {
           try {
             if (extraInfo.message.content == "") {
@@ -18,11 +19,12 @@ export default {
             });
           } catch (error) {
             goosemodScope.showToast("An error has occured!", { type: "error" });
-            console.error(error);
+            goosemodScope.logger.debug("Copy Raw - ERROR", error);
           }
         },
       });
     },
+
     onRemove: () => {
       goosemodScope.patcher.contextMenu.remove("Copy Raw");
     },
