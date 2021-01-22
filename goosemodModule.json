@@ -1,9 +1,9 @@
 {
   "main": "src/index.js",
 
-  "name": "Example Module",
-  "description": "",
+  "name": "Copy Raw",
+  "description": "Allows you to copy messages as they were when being written.",
   "tags": [],
-  "authors": ["506482395269169153"],
-  "version": "1.0.0"
+  "authors": ["441384103946878987"],
+  "version": "1.1.0"
 }

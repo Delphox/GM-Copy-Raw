@@ -1,10 +1,30 @@
-import { exampleImportedFunction } from './second.js';
-
 export default {
   goosemodHandlers: {
     onImport: () => {
-      exampleImportedFunction();
+      goosemodScope.patcher.contextMenu.add("message", {
+        label: "Copy Raw",
+        action: (_originalArgs, extraInfo) => {
+          try {
+            if (extraInfo.message.content == "") {
+              return goosemodScope.showToast("Unable to copy", {
+                type: "error",
+              });
+            }
+
+            DiscordNative.clipboard.copy(extraInfo.message.content);
+            goosemodScope.showToast("Copied!", {
+              type: "success",
+              icon: false,
+            });
+          } catch (error) {
+            goosemodScope.showToast("An error has occured!", { type: "error" });
+            console.error(error);
+          }
+        },
+      });
     },
-    onRemove: () => {}
-  }
+    onRemove: () => {
+      goosemodScope.patcher.contextMenu.remove("Copy Raw");
+    },
+  },
 };
