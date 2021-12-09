@@ -1,24 +1,31 @@
+import { contextMenu } from '@goosemod/patcher';
+import { findByProps } from '@goosemod/webpack';
+
+const { copy } = findByProps('SUPPORTS_COPY', 'copy');
+
+let unpatch;
+
 export default {
   goosemodHandlers: {
     onImport: () => {
-      goosemodScope.patcher.contextMenu.add("message", {
-        label: "Copy Raw",
+      unpatch = contextMenu.patch('message', {
+        label: 'Copy Raw',
 
         action: (_originalArgs, extraInfo) => {
           try {
             if (extraInfo.message.content == "") {
               return goosemodScope.showToast("Unable to copy", {
-                type: "error",
+                type: 'error',
               });
             }
 
-            DiscordNative.clipboard.copy(extraInfo.message.content);
+            copy(extraInfo.message.content);
             goosemodScope.showToast("Copied!", {
-              type: "success",
+              type: 'success',
               icon: false,
             });
           } catch (error) {
-            goosemodScope.showToast("An error has occured!", { type: "error" });
+            goosemodScope.showToast("An error has occured!", { type: 'error' });
             goosemodScope.logger.debug("Copy Raw - ERROR", error);
           }
         },
@@ -26,7 +33,7 @@ export default {
     },
 
     onRemove: () => {
-      goosemodScope.patcher.contextMenu.remove("Copy Raw");
+      unpatch();
     },
   },
 };
